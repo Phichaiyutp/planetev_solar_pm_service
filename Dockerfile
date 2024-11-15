@@ -1,5 +1,5 @@
 # Stage 1: Build stage
-FROM python:3.12 as builder
+FROM python:3.12 AS builder
 
 # Set the working directory
 WORKDIR /app
@@ -14,6 +14,10 @@ COPY . .
 # Stage 2: Final stage - smaller runtime image
 FROM python:3.12
 
+# Create a non-root user and switch to it
+RUN useradd -m appuser
+USER appuser
+
 # Set the working directory
 WORKDIR /app
 
@@ -23,8 +27,11 @@ COPY --from=builder /root/.local /root/.local
 # Copy the application code
 COPY --from=builder /app /app
 
-# Expose the port that Uvicorn will run on
+# Expose the port that the application will run on
 EXPOSE 5000
 
 # Update PATH for local pip installation
 ENV PATH=/root/.local/bin:$PATH
+
+# Default command to run the application
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "5000"]
