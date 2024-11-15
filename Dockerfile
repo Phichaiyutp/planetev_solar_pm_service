@@ -27,11 +27,11 @@ COPY --from=builder /root/.local /root/.local
 # Copy the application code
 COPY --from=builder /app /app
 
-# Expose the port that the application will run on
+# Expose the port
 EXPOSE 5000
 
 # Update PATH for local pip installation
 ENV PATH=/root/.local/bin:$PATH
 
-# Default command to run the application
+# Set the default command
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "5000"]

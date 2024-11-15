@@ -14,7 +14,7 @@ services:
     networks:
       - solar_network
     volumes:
-      - .:/code
+      - .:/app
 
   mongodb:
     container_name: planetev_solar_mongodb
