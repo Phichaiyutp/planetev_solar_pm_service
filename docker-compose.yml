@@ -1,5 +1,5 @@
 services:
-  solar_api:
+  solar_pm:
     image: planetev_solar_pm_service:0.0.1
     build:
       context: .
